@@ -4,15 +4,18 @@
 	"use strict";//make it impossible to accidentally create global variables
 	
 	console.log("SEAF fired");
+	var width = 650;
+    var height = 500;
+	var color = d3.scaleOrdinal(d3.schemeCategory10);
 
 	d3.json("data.json", function(data) {
 	   var canvas = d3.select("#graph").append("svg")
-	        .attr("width", 500)
-	        .attr("height", 500)
+	        .attr("width", width)
+	        .attr("height", height)
 	        .attr("border", "black")
 
 	   var group = canvas.append("g")
-	        .attr("transform", "translate(100,10)")
+	       
 
 	   var line = d3.line()
 	        .x(function(d, i) {
@@ -23,11 +26,12 @@
 	        }); 
 
 	   group.selectAll("path")
-	        .data(data).enter()
+	        .data(data)
+	        .enter()
 	        .append("path")
 	        .attr("d", function(d){ return line(d) })
 	        .attr("fill", "none")
-	        .attr("stroke", "green")
+	        .attr("stroke", color)
 	        .attr("stroke-width", 3);
 	});
 })();
