@@ -35,6 +35,12 @@
 	        .attr("width", width)
 	        .attr("height", height);
 
+	    canvas.append("circle")
+	    		.attr("cx", 250)
+                .attr("cy", 125)
+                .attr("r", 5)
+                .style("fill", "red");
+
 	   var group = canvas.append("g")
 
 	   group.append("g")
