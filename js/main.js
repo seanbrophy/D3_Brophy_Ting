@@ -4,8 +4,8 @@
 	"use strict";//make it impossible to accidentally create global variables
 	
 	console.log("SEAF fired");
-	var width = 500;
-    var height = 250;
+	var width = 1050;
+    var height = 500;
     var padding = 30;
  
     //grabs a d3 color library
@@ -36,13 +36,37 @@
 	        .attr("height", height);
 
 	    canvas.append("circle")
-	    		.attr("cx", 250)
-                .attr("cy", 125)
+	    		.attr("cx", width/2)
+                .attr("cy", height/2)
                 .attr("r", 5)
                 .style("fill", "red");
 
 	   var group = canvas.append("g")
 
+	   //puts a line using data from a json file in a object to be drawn
+	   var line = d3.line()
+	        .x(function(d, i) {
+	        	console.log((width/7)*d.x);
+	            return (width/6.35)*d.x;
+	        })
+	        .y(function(d, i) {
+	        	//console.log(d3.format("s")(d.y));
+	            return d.y;
+	        }); 
+
+	   group.selectAll("path")
+	        .data(data)
+	        .enter()
+	        .append("path")
+	        //this next line draws the path using the line variable and the data
+	        .attr("d", function(d){ return line(d) })
+	        .attr("fill", "none")
+	        .attr("transform", "translate(" + padding + ",0)")
+	        //supposed to give random color to each line, doesn't work
+	        .attr("stroke", color)
+	        .attr("stroke-width", 3);
+
+	   //the axis bars
 	   group.append("g")
 			.attr("class", "axisX")
 			.attr("transform", "translate(0," + (height - padding) + ")")//sets the axis bar at the bottom
