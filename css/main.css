@@ -3,6 +3,12 @@
 
 #graph svg
 {
-	
+	margin: 0 auto;
 	background-color:#efefef; 
+}
+
+#graph{
+	margin: 0 auto;
+	width: 90%;
+	background-color: red;
 }

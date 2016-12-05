@@ -4,9 +4,9 @@
 	"use strict";//make it impossible to accidentally create global variables
 	
 	console.log("SEAF fired");
-	var width = 1050;
+	var width = 500;
     var height = 500;
-    var padding = 30;
+    var padding = 20;
  
     //grabs a d3 color library
 	var color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -46,7 +46,7 @@
 	   //puts a line using data from a json file in a object to be drawn
 	   var line = d3.line()
 	        .x(function(d, i) {
-	        	console.log((width/7)*d.x);
+	        	console.log((width/6.35)*d.x);
 	            return (width/6.35)*d.x;
 	        })
 	        .y(function(d, i) {
@@ -54,6 +54,7 @@
 	            return d.y;
 	        }); 
 
+	    //creates the lines
 	   group.selectAll("path")
 	        .data(data)
 	        .enter()
@@ -79,4 +80,6 @@
 	       
 	   
 	});
+
+
 })();
