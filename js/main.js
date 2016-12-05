@@ -4,8 +4,8 @@
 	"use strict";//make it impossible to accidentally create global variables
 	
 	console.log("SEAF fired");
-	var width = 1000;
-    var height = 500;
+	var width = 500;
+    var height = 250;
     var padding = 30;
  
     //grabs a d3 color library
