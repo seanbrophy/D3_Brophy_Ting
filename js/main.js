@@ -62,8 +62,8 @@
 	        .append("path")
 	        //this next line draws the path using the line variable and the data
 	        .attr("d", function(d,i){
-	        	console.log(i); 
-	        	console.log(d);
+	        	//console.log(i); 
+	        	console.log(d.x);
 	        	return line(d) })
 	        .attr("fill", "none")
 	        .attr("transform", "translate(" + padding + ",0)")
