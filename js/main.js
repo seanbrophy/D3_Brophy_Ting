@@ -4,7 +4,7 @@
 	"use strict";//make it impossible to accidentally create global variables
 	
 	console.log("SEAF fired");
-	var width = 500;
+	var width = 700;
     var height = 500;
     var padding = 20;
  
@@ -46,7 +46,8 @@
 	   //puts a line using data from a json file in a object to be drawn
 	   var line = d3.line()
 	        .x(function(d, i) {
-	        	console.log((width/6.35)*d.x);
+	        	//console.log((width/6.35)*d.x);
+	        	console.log("this is line d "+d);
 	            return (width/6.35)*d.x;
 	        })
 	        .y(function(d, i) {
@@ -60,7 +61,10 @@
 	        .enter()
 	        .append("path")
 	        //this next line draws the path using the line variable and the data
-	        .attr("d", function(d){ return line(d) })
+	        .attr("d", function(d,i){
+	        	console.log(i); 
+	        	console.log(d);
+	        	return line(d) })
 	        .attr("fill", "none")
 	        .attr("transform", "translate(" + padding + ",0)")
 	        //supposed to give random color to each line, doesn't work
