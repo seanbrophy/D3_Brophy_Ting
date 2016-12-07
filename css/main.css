@@ -1,6 +1,11 @@
 @charset "UTF-8";
 /* CSS Document */
 
+.hidden
+{
+	display: none;
+}
+
 #graph svg
 {
 	margin: 0 auto;
