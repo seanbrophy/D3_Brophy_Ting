@@ -26,10 +26,22 @@
 	var z = d3.scaleOrdinal()
 	    .range(["#C81810", "#FCB00C", "#57842B", "#F36523", "#2F83A2"]);
 
-	var div = d3.select("#graph")
-		.append("div")
-			.attr("class","tooltip")
-			console.log("mouseover");    
+	var tooltip = svg.append("g")
+	  .attr("class", "tooltip")
+	  .style("display", "none");
+	    
+	tooltip.append("rect")
+	  .attr("width", 30)
+	  .attr("height", 20)
+	  .attr("fill", "white")
+	  .style("opacity", 0.5);
+
+	tooltip.append("text")
+	  .attr("x", 15)
+	  .attr("dy", "1.2em")
+	  .style("text-anchor", "middle")
+	  .attr("font-size", "12px")
+	  .attr("font-weight", "bold");   
 
 
 	var stack = d3.stack();
@@ -66,20 +78,14 @@
 			.style('opacity', 1);
 
 		d3.selectAll('rect')
-		.on("mouseover", function() { 
-			console.log("mouseover");
-			div.style("display", null); 
-		})
-		.on("mouseout", function() { 
-			console.log("mouseover");
-			div.style("display", "none"); 
-		})
+		.on("mouseover", function() { tooltip.style("display", null); })
+		.on("mouseout", function() { tooltip.style("display", "none"); })
 		.on("mousemove", function(d) {
 		    var xPosition = d3.mouse(this)[0] - 15;
 		    var yPosition = d3.mouse(this)[1] - 25;
-		    div.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-		    div.select("text").text("this is here");
-		});
+		    tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+		    tooltip.select("text").text("22");
+		  });
 
 	  //creates the axis bars
 	  g.append("g")
