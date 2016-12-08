@@ -5,10 +5,13 @@
 	
 	console.log("SEAF fired");
 
-	var svg = d3.select("svg");
 	var margin = {top: 20, right: 20, bottom: 30, left: 40};
-	var width = +svg.attr("width") - margin.left - margin.right;
-	var height = +svg.attr("height") - margin.top - margin.bottom;
+	var width = 540 - margin.left - margin.right;
+	var height = 500 - margin.top - margin.bottom;
+
+	var svg = d3.select("#graph").append("svg")
+			.attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
 	var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 	var t;
 
@@ -19,9 +22,15 @@
 
 	var y = d3.scaleLinear()
 	    .rangeRound([height, 0]);
-
+	//the colours of the stacked bar chart and legend
 	var z = d3.scaleOrdinal()
 	    .range(["#C81810", "#FCB00C", "#57842B", "#F36523", "#2F83A2"]);
+
+	var div = d3.select("#graph")
+		.append("div")
+			.attr("class","tooltip")
+			console.log("mouseover");    
+
 
 	var stack = d3.stack();
 
@@ -35,10 +44,10 @@
 	  y.domain([0, d3.max(data, function(d) { return d.total; })]).nice();
 	  z.domain(data.columns.slice(1));
 
-	  g.selectAll(".serie")
+	  g.selectAll(".game")
 	    .data(stack.keys(data.columns.slice(1))(data))
 	    .enter().append("g")
-	      .attr("class", "serie")
+	      .attr("class", "game")
 	      .attr("fill", function(d) { return z(d.key); })
 	    .selectAll("rect")
 	    .data(function(d) { return d; })
@@ -46,8 +55,33 @@
 	      .attr("x", function(d) { return x(d.data.game); })
 	      .attr("y", function(d) { return y(d[1]); })
 	      .attr("height", function(d) { return y(d[0]) - y(d[1]); })
-	      .attr("width", x.bandwidth());
+	      .attr("width", x.bandwidth())
+	      .style("opacity", 0)
+	      //transition works but the y value returns nan
+	      .transition()
+			.duration(1800)
+			.delay(function (d, i) {
+				return i * 50;
+			})
+			.style('opacity', 1);
 
+		d3.selectAll('rect')
+		.on("mouseover", function() { 
+			console.log("mouseover");
+			div.style("display", null); 
+		})
+		.on("mouseout", function() { 
+			console.log("mouseover");
+			div.style("display", "none"); 
+		})
+		.on("mousemove", function(d) {
+		    var xPosition = d3.mouse(this)[0] - 15;
+		    var yPosition = d3.mouse(this)[1] - 25;
+		    div.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+		    div.select("text").text("this is here");
+		});
+
+	  //creates the axis bars
 	  g.append("g")
 	      .attr("class", "axis axis--x")
 	      .attr("transform", "translate(0," + height + ")")
