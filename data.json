@@ -1,123 +1,43 @@
 [
-  [
   {
-     "day":0,
-     "hours":10
+     "game":"Dota 2",
+     "sunday":10,
+     "monday":20,
+     "tuesday":30,
+     "wednesday":40,
+     "thursday":50,
+     "friday":60,
+     "saturday":70
   },
   {
-     "day":1,
-     "hours":10
+     "game":"CS:GO",
+     "sunday":10,
+     "monday":20,
+     "tuesday":30,
+     "wednesday":40,
+     "thursday":50,
+     "friday":60,
+     "saturday":70
   },
   {
-     "day":2,
-     "hours":10
+     "game":"GTA 5",
+     "sunday":10,
+     "monday":20,
+     "tuesday":30,
+     "wednesday":40,
+     "thursday":50,
+     "friday":60,
+     "saturday":70
   },
   {
-     "day":3,
-     "hours":10
-  },
-  {
-     "day":4,
-     "hours":11
-  },
-  {
-     "day":5,
-     "hours":13
-  },
-  {
-     "day":6,
-     "hours":13
+     "game":"TF2",
+     "sunday":10,
+     "monday":20,
+     "tuesday":30,
+     "wednesday":40,
+     "thursday":50,
+     "friday":60,
+     "saturday":70
   }
- ],
-  [
-  {
-     "day":0,
-     "hours":7
-  },
-  {
-     "day":1,
-     "hours":7
-  },
-  {
-     "day":2,
-     "hours":7
-  },
-  {
-     "day":3,
-     "hours":8
-  },
-  {
-     "day":4,
-     "hours":10
-  },
-  {
-     "day":5,
-     "hours":14
-  },
-  {
-     "day":6,
-     "hours":14
-  }
- ],
-  [
-  {
-     "day":0,
-     "hours":68
-  },
-  {
-     "day":1,
-     "hours":69
-  },
-  {
-     "day":2,
-     "hours":72
-  },
-  {
-     "day":3,
-     "hours":71
-  },
-  {
-     "day":4,
-     "hours":82
-  },
-  {
-     "day":5,
-     "hours":98
-  },
-  {
-     "day":6,
-     "hours":94
-  }
- ],
- [
-  {
-     "day":0,
-     "hours":128
-  },
-  {
-     "day":1,
-     "hours":128
-  },
-  {
-     "day":2,
-     "hours":127
-  },
-  {
-     "day":3,
-     "hours":126
-  },
-  {
-     "day":4,
-     "hours":141
-  },
-  {
-     "day":5,
-     "hours":163
-  },
-  {
-     "day":6,
-     "hours":156
-  }
- ]
-
+  
 ]

@@ -4,141 +4,168 @@
 	"use strict";//make it impossible to accidentally create global variables
 	
 	console.log("SEAF fired");
-    var height = 300;
-    var padding = 60;
 
- 
-    //grabs a d3 color library
-	var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-	function resize() {
+	/*modified from Mike Bostock at http://bl.ocks.org/3943967 */
+/*
+	var data = [
+	{"key":"DOTA 2", "pop1":3000, "pop2":3000, "pop3":3000},
+	{"key":"CS:GO", "pop1":3000, "pop2":3000, "pop3":3000},
+	{"key":"GTA 5", "pop1":12000, "pop2":5000, "pop3":13000},
+	{"key":"GTA ", "pop1":12000, "pop2":5000, "pop3":13000},
+	{"key":"TF2", "pop1":8000, "pop2":21000, "pop3":11000}
+	];
+	 
+	 console.log(data.length);
+	var n = 3, // number of layers
+	    m = data.length, // number of samples per layer
+	    stack = d3.stack(),
+	    labels = data.map(function(d) {return d.key;}),
+	    
+	    //go through each layer (pop1, pop2 etc, that's the range(n) part)
+	    //then go through each object in data and pull out that objects's population data
+	    //and put it into an array where x is the index and y is the number
+	    layers = stack(d3.range(n).map(function(d) { 
+	                var a = [];
+	                for (var i = 0; i < m; ++i) {
+	                    a[i] = {x: i, y: data[i]['pop' + (d+1)]};  
+	                }
+	                return a;
+	             })),
+	    
+		//the largest single layer
+	    yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
+	    //the largest stack
+	    yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
 
-		//grabs the containing divs width and holds it within a variable
-		var width = parseInt(d3.select('#graph').style('width'))-padding;
+	var margin = {top: 40, right: 10, bottom: 20, left: 10},
+	    width = 500 - margin.left - margin.right,
+	    height = 414 - margin.top - margin.bottom;
 
-		//empty the div everytime the the resize function is called
-	 	document.querySelector( '#graph' ).innerHTML = '';
+	var x = d3.scaleOrdinal()
+	    .domain(d3.range(m))
+	    .range([0, width], 0.08);//was previously .rangeroundbands
 
-	    //grabs a d3 color library
-		var color = d3.scaleOrdinal(d3.schemeCategory10);
+	var y = d3.scaleLinear()
+	    .domain([0, yStackMax])
+	    .range([height, 0]);
 
-		//grabs the data from a json file and creates a function using the data
-		d3.json("data.json", function(data) {
+	var color = d3.scaleLinear()
+	    .domain([0, n - 1])
+	    .range(["#aad", "#556"]);
 
-			var xScale = d3.scaleLinear()
-							.range([padding, width])
-							.domain([1,7]);
+	var xAxis = d3.axisBottom()
+	    .scale(x)
+	    .tickSize(1)
+	    .tickPadding(6)
+		.tickValues(labels);
 
-			var yScale = d3.scaleLinear()
-							.range([height - padding, padding])
-							.domain([0,20000000]);
+	var svg = d3.select("#graph").append("svg")
+	    .attr("width", width + margin.left + margin.right)
+	    .attr("height", height + margin.top + margin.bottom)
+	  .append("g")
+	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-			var xAxis = d3.axisBottom()
-		    			.scale(xScale)
-		    			.ticks(5); 
+	var layer = svg.selectAll(".layer")
+	    .data(layers)
+	  .enter().append("g")
+	    .attr("class", "layer")
+	    .style("fill", function(d, i) { return color(i); });
 
-			var yAxis = d3.axisLeft()
-		    			.scale(yScale)		    			
-		    			.ticks(5)
-		    			.tickFormat(d3.format(".0f"));
+	layer.selectAll("rect")
+	    .data(function(d) { return d; })
+	  .enter().append("rect")
+	    .attr("x", function(d) { return x(d.x); })
+	    .attr("y", function(d) { return y(d.y0 + d.y); })
+	    .attr("width", x.range())
+	    .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); });
 
-			//creates the svg object to draw on after selecting an element with an id of 'graph'
-		   var canvas = d3.select("#graph").append("svg")
-		        .attr("width", width+padding)
-		        .attr("height", height);
-
-		   var group = canvas.append("g")
-
-		   //puts a line using data from a json file in a object to be drawn
-		   var line = d3.line()
-		        .x(function(d, i) {
-		        	
-		        	if(d.day==0)
-		        	{
-		        		//this makes the first point on the line stay on the zero point
-		        		return d.day+1;
-		        	}else
-		        	{
-		        		return Math.ceil((width/6)*d.day-padding);
-		        	}		            
-		        })
-		        .y(function(d, i) {
-		            return d.hours;
-		        }); 
-
-		   var div = d3.select("#graph")
-						.append("div")
-							.attr("class","tooltip")
-							.style("opacity",0);
-
-		    //creates the lines
-		   group.selectAll("path")
-		        .data(data)
-		        .enter()
-		        .append("path")
-		        //this next line draws the path using the line variable and the data
-		        .attr("d", function(d){
-		        	
-		        	return line(d) })
-		        .attr("fill", "none")
-		        .attr("transform", "translate(" + padding + ","+ padding +")")
-		        //supposed to give random color to each line, doesn't work
-		        .attr("stroke", color)
-		        .attr("stroke-width", 4.5)
-		        .on("mouseover", function(d,i){
-		        	//console.log("line: "+(i+1)+", " +d.length);
-					div.transition()
-						.duration(100)
-						.style("opacity", 1);
-						div.html("line: "+(i+1))
-						.style("left", (d3.event.pageX-40)+"px")
-						.style("top", (d3.event.pageY-50) +"px");
-
-					d3.select(this)
-						.style('opacity', .8)
-						.style('stroke',"black");
-				})
-				.on("mouseout" ,function(){
-					div.transition()
-						.duration(200)
-						.style("opacity", 0);
-
-					d3.select(this)
-						.style('opacity', 1)
-						.style('stroke',color);
-				});
+	svg.append("g")
+	    .attr("class", "x axis")
+	    .attr("transform", "translate(0," + height + ")")
+	    .call(xAxis);
+*/
 
 
 
-		   //the axis bars
-		   group.append("g")
-				.attr("class", "axisX")
-				.attr("transform", "translate(0," + (height - padding) + ")")//sets the axis bar at the bottom
-		    	.call(xAxis);
 
-		    group.append("g")
-	        	.attr("class", "axis")
-	            .attr("transform", "translate("+padding+",0)")
-	            .call(yAxis);
-       	    
-	        //add titles to the axes
-	        /*group.append("text")
-	            .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-	            .attr("transform", "translate("+ ((padding/2)-7) +","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
-	            .text("Total Hours Played By All Users");*/
+    /*var data = [
+	{"key":"DOTA 2", "pop1":3000, "pop2":3000, "pop3":3000},
+	{"key":"CS:GO", "pop1":3000, "pop2":3000, "pop3":3000},
+	{"key":"GTA 5", "pop1":12000, "pop2":5000, "pop3":13000},
+	{"key":"GTA ", "pop1":12000, "pop2":5000, "pop3":13000},
+	{"key":"TF2", "pop1":8000, "pop2":21000, "pop3":11000}
+	];
+	 
+	 console.log(data.length);
+	var n = 3, // number of layers
+	    m = data.length, // number of samples per layer
+	    stack = d3.layout.stack(),
+	    labels = data.map(function(d) {return d.key;}),
+	    
+	    //go through each layer (pop1, pop2 etc, that's the range(n) part)
+	    //then go through each object in data and pull out that objects's population data
+	    //and put it into an array where x is the index and y is the number
+	    layers = stack(d3.range(n).map(function(d) { 
+	                var a = [];
+	                for (var i = 0; i < m; ++i) {
+	                    a[i] = {x: i, y: data[i]['pop' + (d+1)]};  
+	                }
+	                return a;
+	             })),
+	    
+		//the largest single layer
+	    yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
+	    //the largest stack
+	    yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
 
-	        group.append("text")
-	            .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-	            .attr("transform", "translate("+ (width/2) +","+(height-(padding/3))+")")  // centre below axis
-	            .text("Days Passed");
-		       
-		   
-		});
-	}
+	var margin = {top: 40, right: 10, bottom: 20, left: 10},
+	    width = 500 - margin.left - margin.right,
+	    height = 414 - margin.top - margin.bottom;
 
-	resize();
+	var x = d3.scale.ordinal()
+	    .domain(d3.range(m))
+	    .rangeRoundBands([0, width], 0.08);
 
-	d3.select(window).on('resize', resize);
+	var y = d3.scale.linear()
+	    .domain([0, yStackMax])
+	    .range([height, 0]);
+
+	var color = d3.scale.linear()
+	    .domain([0, n - 1])
+	    .range(["#aad", "#556"]);
+
+	var xAxis = d3.svg.axis()
+	    .scale(x)
+	    .tickSize(1)
+	    .tickPadding(6)
+		.tickValues(labels)
+	    .orient("bottom");
+
+	var svg = d3.select("#graph").append("svg")
+	    .attr("width", width + margin.left + margin.right)
+	    .attr("height", height + margin.top + margin.bottom)
+	  .append("g")
+	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	var layer = svg.selectAll(".layer")
+	    .data(layers)
+	  .enter().append("g")
+	    .attr("class", "layer")
+	    .style("fill", function(d, i) { return color(i); });
+
+	layer.selectAll("rect")
+	    .data(function(d) { return d; })
+	  .enter().append("rect")
+	    .attr("x", function(d) { return x(d.x); })
+	    .attr("y", function(d) { return y(d.y0 + d.y); })
+	    .attr("width", x.rangeBand())
+	    .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); });
+
+	svg.append("g")
+	    .attr("class", "x axis")
+	    .attr("transform", "translate(0," + height + ")")
+	    .call(xAxis);*/
 
 
 })();
