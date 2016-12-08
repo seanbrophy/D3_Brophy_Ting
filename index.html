@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<style>
 
-.bar {
-  fill: steelblue;
-}
-
-.axis path {
-  display: none;
-}
-
-</style>
 <svg width="560" height="500"></svg>
 <script src="http://d3js.org/d3.v4.min.js"></script>
 <script>
@@ -97,6 +87,7 @@ d3.csv("data.csv", type, function(error, data) {
       .text(function(d) { return d; });
 });
 
+//sorts the data from highest to lowest player value per month
 function type(d, i, columns) {
   for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
   d.total = t;
