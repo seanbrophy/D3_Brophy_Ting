@@ -5,9 +5,18 @@
 	display:none;
 }
 
-.tooltip
+.hidden
 {
-	background-color: red;
-	width: 15px;
-	height: 15px;
+	display: none;
+}
+
+#graph svg
+{
+	margin: 0 auto;
+	background-color:#efefef; 
+}
+
+#graph{
+	margin: 0 auto;
+	width: 90%;
 }
