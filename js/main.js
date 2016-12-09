@@ -9,7 +9,7 @@
 	var t;
 	
 
-	//sorts the data from highest to lowest player value per month
+	
 	function type(d, i, columns) {
 	  for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
 	  d.total = t;
@@ -50,7 +50,7 @@
 		tooltip.append("rect")
 		  .attr("width", 50)
 		  .attr("height", 20)
-		  .attr("fill", "#ADADAD")
+		  .attr("fill", "#efefef")
 		  .style("opacity", 0.8);
 		//creates a text element with it's position being manually fed to x(half the rectangle size)
 		tooltip.append("text")
@@ -58,12 +58,13 @@
 		  .attr("dy", "1.2em")
 		  .style("text-anchor", "middle")
 		  .attr("font-size", "12px")
+		  .attr("font-color", "white")
 		  .attr("font-weight", "bold");   
 
 
 		var stack = d3.stack();
 
-		//the following calls the function type which reorders the data from biggest to smallest
+		
 		d3.csv("data.csv", type, function(error, data) {
 		  if (error) throw error;
 
@@ -108,8 +109,8 @@
 			    var yPosition = d3.mouse(this)[1];
 			    tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
 			    //var bar = d[1]+1;
-			    console.log(d3.select('rect').attr("height"));
-			    tooltip.select("text").text(d[1]);
+			    //console.log(d[1]-d[0]);
+			    tooltip.select("text").text(d[1]-d[0]);
 			  });
 
 		  //creates the axis bars
