@@ -1,16 +1,48 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>D3 Infographic</title>
+<meta name="viewport" content="initial-scale=1.0, width=device-width">
+<title>Steam Player Data</title>
 <link href="css/main.css" rel="stylesheet" type="text/css" media="screen">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
 <script src="js/d3.min.js"></script>
 </head>
 <body>
-<section id="graph">
-	
-</section>
 
-<script src="js/main.js"></script>
+	<div id='topbar'>
+
+		<div id="titlebar">
+			<section id="logo">
+					<img src="images/logo.svg" alt="gametacker">
+			</section>
+
+			<div id="title">
+				<section id="top5title">
+					<img src="images/title.svg" alt="TOP 5 2015 STEAM GAMES">
+				</section>
+			</div>
+		</div>
+		<div id="games">
+			<section id="gamelogo">
+				<img src="images/game_logos.svg" alt="TOP 5 2015 STEAM GAMES">
+			</section>
+		</div>
+	</div>
+
+	<div id="container">
+	
+		<div id="graph"></div>
+
+	</div>
+
+	<div id="footer">
+		<div id="info">
+			<p>All data is taken from Steam. Not affiliated with Valve in any way. All trademarks are property of their respective owners in the US and other countries. Our goal is to provide unique insight into gaming trends. © gametracker </p>
+		</div>
+	</div>
+	
+	<script src="js/main.js"></script>
+	<script src="js/greensock.js"></script>
 </body>
 </html>
