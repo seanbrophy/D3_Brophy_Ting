@@ -5,13 +5,85 @@
 	display:none;
 }
 
-#graph svg
+body
 {
-	margin: 0 auto;
-	background-color:#efefef; 
+	margin: 0;
 }
 
-#graph{
-	margin: 0 auto;
-	width: 90%;
+/* topbar */
+#topbar
+{
+	overflow: auto;
+	background-color: #38C6F4;
 }
+
+	#titlebar
+	{
+		background-color: #8FE4F2;
+		border-bottom: 2px solid white;
+	}
+
+		#title
+		{
+			overflow: auto;
+			margin: 0 auto;
+			width: 70%;
+		}
+
+			#logo
+			{
+				width: 25%;
+				float: left;
+			}
+
+			#top5
+			{
+				width: 50%;
+				float: right;
+			}
+	#games
+	{
+		width: 70%;
+		margin: 0 auto;
+	}
+
+		#gamelogo
+		{
+			width: 50%;
+			float: right;
+		}
+
+
+#container
+{
+	width: 70%;
+	margin: 0 auto;
+}
+
+	#graph svg
+	{
+		margin: 0 auto;
+	}
+
+	#graph{
+		margin: 0 auto;
+		width: 90%;
+	}
+
+#footer
+{
+	padding: 5px 0 5px 0;
+	background-color: #38C6F4;
+}
+
+	#info
+	{
+		width: 70%;
+		margin:0 auto;
+	}
+
+	#info p
+	{
+		font-size: .8em;
+		color: white;
+	}
