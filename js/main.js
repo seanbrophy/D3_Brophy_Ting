@@ -14,7 +14,6 @@
             .attr("height", height + margin.top + margin.bottom);
 	var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 	var t;
-
 	var x = d3.scaleBand()
 	    .rangeRound([0, width])
 	    .padding(0.1)
@@ -26,18 +25,19 @@
 	var z = d3.scaleOrdinal()
 	    .range(["#C81810", "#FCB00C", "#57842B", "#F36523", "#2F83A2"]);
 
+	//creates a group object and makes it so that it isn't displayed
 	var tooltip = svg.append("g")
 	  .attr("class", "tooltip")
 	  .style("display", "none");
-	    
+	//creates a white see through reectangle inside of the group object
 	tooltip.append("rect")
-	  .attr("width", 30)
+	  .attr("width", 50)
 	  .attr("height", 20)
-	  .attr("fill", "white")
-	  .style("opacity", 0.5);
-
+	  .attr("fill", "#ADADAD")
+	  .style("opacity", 0.8);
+	//creates a text element with it's position being manually fed to x(half the rectangle size)
 	tooltip.append("text")
-	  .attr("x", 15)
+	  .attr("x", 25)
 	  .attr("dy", "1.2em")
 	  .style("text-anchor", "middle")
 	  .attr("font-size", "12px")
@@ -50,6 +50,7 @@
 	d3.csv("data.csv", type, function(error, data) {
 	  if (error) throw error;
 
+	  //this sorts the data from biggest to smallest
 	  data.sort(function(a, b) { return b.total - a.total; });
 
 	  x.domain(data.map(function(d) { return d.game; }));
@@ -64,7 +65,9 @@
 	    .selectAll("rect")
 	    .data(function(d) { return d; })
 	    .enter().append("rect")
-	      .attr("x", function(d) { return x(d.data.game); })
+	      .attr("x", function(d) {
+	      	return x(d.data.game); 
+	      })
 	      .attr("y", function(d) { return y(d[1]); })
 	      .attr("height", function(d) { return y(d[0]) - y(d[1]); })
 	      .attr("width", x.bandwidth())
@@ -75,16 +78,21 @@
 			.delay(function (d, i) {
 				return i * 50;
 			})
-			.style('opacity', 1);
+			.style('opacity', 1)
+			
 
+		//selects all the rect objects and creates a mouse over listener that shows/hides the tooltip/
 		d3.selectAll('rect')
 		.on("mouseover", function() { tooltip.style("display", null); })
 		.on("mouseout", function() { tooltip.style("display", "none"); })
+		//mousmove creates a listener for whenever the mouse moves on a bar
 		.on("mousemove", function(d) {
-		    var xPosition = d3.mouse(this)[0] - 15;
-		    var yPosition = d3.mouse(this)[1] - 25;
+		    var xPosition = d3.mouse(this)[0]+25;
+		    var yPosition = d3.mouse(this)[1];
 		    tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-		    tooltip.select("text").text("22");
+		    //var bar = d[1]+1;
+		    console.log(d3.select('rect').attr("height"));
+		    tooltip.select("text").text(d[1]);
 		  });
 
 	  //creates the axis bars
