@@ -23,40 +23,44 @@ body
 		border-bottom: 2px solid white;
 	}
 
+		#logo
+		{
+			margin-top: 10px;
+			margin-left: 10em;
+			width: 20%;
+			float: left;
+		}
+
 		#title
 		{
 			overflow: auto;
 			margin: 0 auto;
-			width: 70%;
+			width: 100%;
 		}
 
-			#logo
+			#top5title
 			{
-				width: 25%;
-				float: left;
-			}
-
-			#top5
-			{
+				margin: 0 auto;
+				margin-top: 10px;
+				margin-bottom: 10px;
 				width: 50%;
-				float: right;
 			}
 	#games
 	{
-		width: 70%;
+		width: 100%;
 		margin: 0 auto;
 	}
 
 		#gamelogo
 		{
 			width: 50%;
-			float: right;
+			margin: 0 auto;
 		}
 
 
 #container
 {
-	width: 70%;
+	width: 100%;
 	margin: 0 auto;
 }
 
@@ -78,7 +82,7 @@ body
 
 	#info
 	{
-		width: 70%;
+		width: 90%;
 		margin:0 auto;
 	}
 
@@ -87,3 +91,67 @@ body
 		font-size: .8em;
 		color: white;
 	}
+
+@media screen and (min-width : 32.8125em){/*525/16*/
+		#logo
+		{
+			margin-left: 15em;
+		}
+}
+
+@media screen and (min-width : 40.625em){/*650/16*/
+		#logo
+		{
+			margin-left: 20em;
+		}
+}
+
+@media screen and (min-width : 60em){/*960/16*/
+
+		
+
+			#logo
+			{
+				margin-left: 9em;
+				width: 15%;
+			}
+
+			#title
+			{
+				width: 70%;
+			}
+
+				#top5title
+				{
+					margin-top: 10px;
+					margin-right: 9em;
+					margin-bottom: 10px;
+					width: 50%;
+					float: right;
+				}
+		#games
+		{
+			width: 70%;
+		}
+
+			#gamelogo
+			{
+				width: 50%;
+				float: right;
+			}
+
+
+	#container
+	{
+		width: 70%;
+	}
+
+		#graph{
+			width: 90%;
+		}
+
+		#info
+		{
+			width: 70%;
+		}
+}
