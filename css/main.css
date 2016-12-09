@@ -67,11 +67,12 @@ body
 	#graph svg
 	{
 		margin: 0 auto;
+		
 	}
 
 	#graph{
 		margin: 0 auto;
-		width: 90%;
+		width: 100%;
 	}
 
 #footer
