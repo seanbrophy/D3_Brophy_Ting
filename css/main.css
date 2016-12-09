@@ -4,3 +4,19 @@
 {
 	display:none;
 }
+
+.hidden
+{
+	display: none;
+}
+
+#graph svg
+{
+	margin: 0 auto;
+	background-color:#efefef; 
+}
+
+#graph{
+	margin: 0 auto;
+	width: 90%;
+}
