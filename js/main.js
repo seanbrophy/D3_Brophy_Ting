@@ -17,9 +17,6 @@
 	}
 
 	function resize() {
-		console.log("resize fired");
-		console.log(parseInt(d3.select('#graph').style('width')) - margin.left - margin.right);
-		
 		//empty the div everytime the the resize function is called
 	 	document.querySelector( '#graph' ).innerHTML = '';
 
