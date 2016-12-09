@@ -5,11 +5,6 @@
 	display:none;
 }
 
-.hidden
-{
-	display: none;
-}
-
 #graph svg
 {
 	margin: 0 auto;
